@@ -18,6 +18,7 @@ const instance = axios.create({
 
 // token的注入，应该在请求之前，也就是请求拦截器
 // 之前pc端是在axios直接注入，但是因为重新new了 instance所以应对 instance注入
+// 实例 拦截器 请求 使用  （请求拦截器）
 instance.interceptors.request.use(function (config) {
   // 方式1
 //   if (store.state.user.token) {
