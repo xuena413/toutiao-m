@@ -1,6 +1,5 @@
 /*****
- * auth.js 专门处理 token的读写和删除
- *   create by gaoly 2020/3/15
+ * auth.js 工具：专门处理 token的读写和删除
  * *****/
 const USER_TOKEN = 'heima-toutiao-mobile-94' // 专门用来存储用户信息
 
