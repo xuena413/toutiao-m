@@ -3,6 +3,7 @@
  */
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 /* 导入token的方式一
 import { getUser } from '@/utils/auth' */
 
@@ -22,6 +23,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     // 放置需要共享的状态
+    // user里面存了俩值，一个是{ token:'',refrshtoken:'' }
     user: auth.getUser() // 就是token信息的对象
 
   },
