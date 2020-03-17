@@ -32,7 +32,7 @@ instance.interceptors.request.use(function (config) {
   return Promise.reject(error) // 返回错误信息  直接进入到axios的catch中
 })
 
-// 响应拦截器 因为axios里面给我们默认加了一层data
+// 响应拦截器功能： 因为axios里面给我们默认加了一层data
 // data 有两层（axios一层加上接口与里面默认又给加了一层）
 // 作用：用响应拦截器处理返回结果的数据  以及将多嵌套的data 结构出来
 instance.interceptors.response.use(function (response) {
