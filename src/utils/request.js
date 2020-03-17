@@ -41,18 +41,59 @@ instance.interceptors.request.use(function (config) { // config是axios时间的
 instance.interceptors.response.use(function (response) {
   // response已经被默认包了一层data
   try {
+    // console.log(response.data)
+
     return response.data.data
   } catch {
     // 如果失败,说明response.data不存在 两层解不开就返回一层（这一层为axios默认包的）
     return response.data
   }
-}, function (error) {
+}, async function (error) {
 // 如果失败/失效/其他错误 会进入响应拦截器的错误区域
 // 只要是401，就是token失效（应将用导航守卫将没有token的拦截在外面）
 //* ------------------------------------4.请求失效------------------------------------------------------------- */
   if (error.response && error.response.status === 401) {
+    // const path = {
+    //   path: '/login', // 地址
+    //   query: {
+    //     // 需要传递的query参数
+    //     redirectUrl: router.currentRoute.fullPath // 表示登录页需要跳转的地址
+    //   }
+    //   // 路由传参的两个写法  动态路由  query()
+    // } //可在下面替换重复的代码
+    /** ------------------------封装path------------------------------ */
+
     if (store.state.user.refresh_token) {
       // 有续命的药 refresh_token
+      // 用 refresh_token换取 token即可 =》需要调用刷新token的接口
+      // axios 还是 instance发请求 （因为token失效，但是instance还会将失效的token注入header）
+      try {
+        const result = await axios({
+          method: 'put',
+          url: 'http://ttapi.research.itcast.cn/app/v1_0/authorizations',
+          headers: { Authorizations: `Bearer ${store.state.user.refresh_token}` } // 为了换token
+        })
+        // result.data.data.token // 新token
+        // 更新失效的token
+        store.commit('updateUser', {
+          user: {
+            token: result.data.data.token, // 最新的token
+            refresh_token: store.state.user.refresh_token // 原来的 refresh_token 14天过期
+          }
+        })
+        return instance(error.config) // 执行之前出现错误的请求  是继续执行请求执行链下面的
+      } catch (error) {
+        // 失败是尝试去续命可是续命失败 需要会到登录
+        // 登录之前需要删除token 因为token和refresh_token都失效了
+        store.commit('delUser')
+        // 从新会到当前页面
+        router.push({
+          path: '/login',
+          query: {
+            redirectUrl: router.currentRoute.fullPath // 登录页跳转的地址
+          }
+        })
+      }
     } else {
       // 无续命的药 refresh_token  直接死亡进登录
       router.push('/login') // 直接跳到登录无可厚非，但是要做更复杂的场景
