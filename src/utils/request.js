@@ -8,7 +8,7 @@ import router from '@/router'
 //* ----------------------------------------1.url的引入+大数字问题--------------------------------------------------------- */
 const instance = axios.create({
 // 构造参数 传入一些配置 和defaults一样
-  baseURl: 'http://ttapi.research.itcast.cn/app/v1_0',
+  baseURL: 'http://ttapi.research.itcast.cn/app/v1_0',
   // 处理大数字问题
   // 此函数是后台响应回但是还没进入拦截器时执行 数组中可以写很多方法
   transformResponse: [function (data) {
