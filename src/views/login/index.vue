@@ -120,6 +120,8 @@ export default {
           //   message: '手机号或者验证码错误',
           //   duration: 500
           // })
+
+          // 可对别人的组件进行这种形式的修改
           this.$xnotify({
             message: '手机号或者验证码错误'
 
