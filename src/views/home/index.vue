@@ -8,11 +8,12 @@
   <van-tabs>
     <van-tab :title="`标签${item}`" v-for="item in 10" :key="item">
       <!-- 生成若干单元格 -->
-      <div class="scroll-wrapper">
+      <!-- <div class="scroll-wrapper">
      <van-cell-group>
       <van-cell title="单元格" value="内容"  v-for="item in 20" :key="item"/>
      </van-cell-group>
-      </div>
+      </div> -->
+<ArticleList></ArticleList>
 
     </van-tab>
 
@@ -25,11 +26,11 @@
 
 <script>
 // @ is an alias to /src
-
+import ArticleList from './components/article-list'
 export default {
   name: 'Home',
   components: {
-
+    ArticleList
   }
 }
 </script>
