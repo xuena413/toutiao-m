@@ -86,7 +86,10 @@ export default {
     async login () {
       // this.checkMobile()
       // this.checkcode()1
-      if (this.checkMobile() && this.checkcode()) {
+      // 小bug解决只判断当不填默认值，什么都不填就登录时间只校验手机号的bug，
+      const validateMobile = this.checkMobile()
+      const validateCode = this.checkCode()
+      if (validateMobile && validateCode) {
         // 两个都为true则通过校验
         // console.log('校验通过')
         // --------------------------------------第七步：调接口验证密码是否正确
@@ -113,9 +116,13 @@ export default {
           this.$router.push(redirectUrl || '/') // 短路函数
         } catch (error) {
           // 提示用户登录失败
-          this.$notify({
-            message: '手机号或者验证码错误',
-            duration: 500
+          // this.$notify({
+          //   message: '手机号或者验证码错误',
+          //   duration: 500
+          // })
+          this.$xnotify({
+            message: '手机号或者验证码错误'
+
           })
         }
       }
