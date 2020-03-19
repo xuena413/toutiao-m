@@ -2,24 +2,30 @@
 <!-- 可以帮助我们实现上拉加载 -->
   <!-- scrollwrapper为了阅读记忆 -->
   <div class="scroll-wrapper">
- <van-list finished-text="暂无数据" offset="200" v-model="upLoading" :finished="finished" @load="onLoad">
-
-  <van-cell v-for="item in articles" :key="item" title="美股又垄断了" :value="'天台排队'+item" ></van-cell>
- </van-list>
+    <!-- 下拉刷新组件包裹 列表组件 -->
+    <van-pull-refresh v-model="downLoading" @refresh="onRefresh" success-text="successText">
+      <van-list finished-text="暂无数据" offset="200" v-model="upLoading" :finished="finished" @load="onLoad">
+        <van-cell v-for="item in articles" :key="item" title="美股又垄断了" :value="'天台排队'+item" ></van-cell>
+      </van-list>
+    </van-pull-refresh>
   </div>
-
 </template>
 
 <script>
 export default {
   data () {
     return {
+      successText: '', // 刷新成功的文本
+      downLoading: false,
       upLoading: false, // 默认false 检测到距底部的的距离大于一个规定长度时
       finished: false, // 是否已经完成所有数据加载
       articles: [] // 文章列表
+      // 下载刷新状态 表示是否正在下拉刷新
+
     }
   },
   methods: {
+    // 上拉加载
     //  onLoad ()会自动执行
     onLoad () {
       console.log('开始记载数据')
@@ -43,6 +49,18 @@ export default {
         // --------------------------- 添加完数据要手动关掉loading
         this.upLoading = false
       }
+    },
+    // 下拉刷新
+    onRefresh () {
+      setTimeout(() => {
+        // 读取最新的数据 而且最新的数据要添加数据头部
+        const arr = Array.from(Array(2), (value, index) => '追加' + (index + 1))
+        // 数组添加到头部
+        this.articles.unshift(...arr)
+        // 手动的关闭正在加载的状态
+        this.downLoading = false
+        this.successText = `更新了${arr.length}条数据`
+      }, 1000)
     }
   }
 }
