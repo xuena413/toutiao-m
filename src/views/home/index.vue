@@ -15,7 +15,9 @@
       <van-cell title="单元格" value="内容"  v-for="item in 20" :key="item"/>
      </van-cell-group>
       </div> -->
-   <ArticleList></ArticleList>
+
+      <!----------------父=》子--------------prop--- 需要将频道id传递给每一个列表组件 -->
+   <ArticleList :channel_id="item.id"></ArticleList>
 
     </van-tab>
 
@@ -43,6 +45,8 @@ export default {
   methods: {
     async getMyChannels () {
       const data = await getMyChannels() // 从api调出来的数据   data就是接收返回的数据结构
+      console.log(data)
+
       this.channels = data.channels
     }
   },

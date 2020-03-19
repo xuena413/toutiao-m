@@ -8,7 +8,7 @@
        <van-cell-group>
          <!------------------------------------ 假数据------------------------------>
         <!-- <van-cell v-for="item in articles" :key="item" title="美股又垄断了" :value="'天台排队'+item" > -->
-           <van-cell v-for="item in articles" :key="item">
+           <van-cell v-for="item in articles" :key="item.art_id">
           <!-- 无图/单图/三图 -->
           <div class="article_item">
             <!-- 标题 -->
@@ -40,14 +40,27 @@
 </template>
 
 <script>
+import { getArticles } from '@/api/articles'
 export default {
+  // prop:['channel_id'] 字符串数组接收，接收方式，比较简单
+  props: {
+    // key(prop属性名):value(对象 配置)
+    channel_id: {
+      required: true, // elenment ui的必填项
+      type: Number, // 表示传入的prop的属性类型
+      default: null // 没传入就会被采用
+    }
+  },
   data () {
     return {
+      // 存储历史时间戳
       successText: '', // 刷新成功的文本
       downLoading: false,
       upLoading: false, // 默认false 检测到距底部的的距离大于一个规定长度时
       finished: false, // 是否已经完成所有数据加载
-      articles: [] // 文章列表
+      articles: [],
+      // 文章列表
+      timestamp: null
       // 下载刷新状态 表示是否正在下拉刷新
 
     }
@@ -55,7 +68,7 @@ export default {
   methods: {
     // 上拉加载
     //  onLoad ()会自动执行
-    onLoad () {
+    /* onLoad () {
       console.log('开始记载数据')
       //   定时器停不了
       //   setTimeout(() => {
@@ -76,6 +89,23 @@ export default {
         this.articles.push(...arr)
         // --------------------------- 添加完数据要手动关掉loading
         this.upLoading = false
+      }
+    }, */
+    async onLoad () {
+      const data = await getArticles({
+        channel_id: this.channel_id,
+        timestamp: this.timestamp || Date.now()
+
+      }) // 指的当前的频道  =》（有历史时间戳用历史的没有就用当前的）
+      this.articles.push(data.results) // 将数据追加到队尾
+      this.upLoading = false
+      // 需要判断历史时间戳是否为0，0就是没数据  this.upLoading = false
+      if (data.pre_timestamp) {
+      // 有历史时间戳 表示有数据进行加载
+        this.timestamp = data.pre_timestamp
+      } else {
+      // 表示没有数据可以请求了
+        this.finished = true
       }
     },
     // 下拉刷新
