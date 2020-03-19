@@ -5,7 +5,34 @@
     <!-- 下拉刷新组件包裹 列表组件 -->
     <van-pull-refresh v-model="downLoading" @refresh="onRefresh" success-text="successText">
       <van-list finished-text="暂无数据" offset="200" v-model="upLoading" :finished="finished" @load="onLoad">
-        <van-cell v-for="item in articles" :key="item" title="美股又垄断了" :value="'天台排队'+item" ></van-cell>
+       <van-cell-grounp>
+         <!------------------------------------ 假数据------------------------------>
+        <!-- <van-cell v-for="item in articles" :key="item" title="美股又垄断了" :value="'天台排队'+item" > -->
+           <van-cell v-for="item in articles" :key="item">
+          <!-- 无图/单图/三图 -->
+          <div class="article_item">
+            <!-- 标题 -->
+            <h3 class="van-ellipsis">2020年是世界大变革</h3>
+            <!-- 三图图片 -->
+            <div class="img_box">
+              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg"/>
+              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg"/>
+              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg"/>
+            </div>
+            <!-- 单图 -->
+             <!-- <div class="img_box">
+              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg"/>
+            </div> -->
+            <!-- 作者信息 -->
+            <div class="info_box">
+              <span>你像一阵风</span>
+              <span>8评论</span>
+              <span>10分钟前</span>
+              <span class="close"><van-icon name="cross"></van-icon></span>
+            </div>
+</div>
+        </van-cell>
+        </van-cell-grounp>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -66,6 +93,45 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='less' scoped>
+.article_item{
+  h3{
+    font-weight: normal;
+    line-height: 2;
+  }
+  .img_box{
+    display: flex;
+    justify-content: space-between;
+    .w33{
+      width: 33%;
+      height: 90px;
+    }
+    .w100{
+      width: 100%;
+      height: 180px;
+    }
+  }
+  .info_box{
+    color: #999;
+    line-height: 2;
+    position: relative;
+    font-size: 12px;
+    span{
+      padding-right: 10px;
+      &.close{
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        line-height: 15px;
+        height: 12px;
+        width: 16px;
+        text-align: center;
+        padding-right: 0;
+        font-size: 8px;
+        position: absolute;
+        right: 0;
+        top: 7px;
+      }
+    }
+  }
+}
 </style>
