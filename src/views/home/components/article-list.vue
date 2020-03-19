@@ -5,7 +5,7 @@
     <!-- 下拉刷新组件包裹 列表组件 -->
     <van-pull-refresh v-model="downLoading" @refresh="onRefresh" success-text="successText">
       <van-list finished-text="暂无数据" offset="200" v-model="upLoading" :finished="finished" @load="onLoad">
-       <van-cell-grounp>
+       <van-cell-group>
          <!------------------------------------ 假数据------------------------------>
         <!-- <van-cell v-for="item in articles" :key="item" title="美股又垄断了" :value="'天台排队'+item" > -->
            <van-cell v-for="item in articles" :key="item">
@@ -15,6 +15,7 @@
             <h3 class="van-ellipsis">2020年是世界大变革</h3>
             <!-- 三图图片 -->
             <div class="img_box">
+              <!-- 图片组件用的是vant的图片组件  需要使用该组件进行图片的懒加载-->
               <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg"/>
               <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg"/>
               <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg"/>
@@ -32,7 +33,7 @@
             </div>
 </div>
         </van-cell>
-        </van-cell-grounp>
+        </van-cell-group>
       </van-list>
     </van-pull-refresh>
   </div>

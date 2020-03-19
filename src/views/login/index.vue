@@ -88,7 +88,7 @@ export default {
       // this.checkcode()1
       // 小bug解决只判断当不填默认值，什么都不填就登录时间只校验手机号的bug，
       const validateMobile = this.checkMobile()
-      const validateCode = this.checkCode()
+      const validateCode = this.checkcode()
       if (validateMobile && validateCode) {
         // 两个都为true则通过校验
         // console.log('校验通过')

@@ -6,14 +6,16 @@
   <van-button type="warning">警告按钮</van-button>
   <van-button type="danger">危险按钮</van-button> -->
   <van-tabs>
-    <van-tab :title="`标签${item}`" v-for="item in 10" :key="item">
+    <!-- 第一处修改 -->
+    <!-- <van-tab :title="`标签${item}`" v-for="item in 10" :key="item"> -->
+        <van-tab :title="item.name" v-for="item in channels" :key="item.id">
       <!-- 生成若干单元格 -->
       <!-- <div class="scroll-wrapper">
      <van-cell-group>
       <van-cell title="单元格" value="内容"  v-for="item in 20" :key="item"/>
      </van-cell-group>
       </div> -->
-<ArticleList></ArticleList>
+   <ArticleList></ArticleList>
 
     </van-tab>
 
@@ -27,10 +29,26 @@
 <script>
 // @ is an alias to /src
 import ArticleList from './components/article-list'
+import { getMyChannels } from '@/api/channels'
 export default {
   name: 'Home',
   components: {
     ArticleList
+  },
+  data () {
+    return {
+      channels: [] // 接收频道数据
+    }
+  },
+  methods: {
+    async getMyChannels () {
+      const data = await getMyChannels() // 从api调出来的数据   data就是接收返回的数据结构
+      this.channels = data.channels
+    }
+  },
+  created () {
+    // 直接获取频道数据
+    this.getMyChannels()
   }
 }
 </script>
