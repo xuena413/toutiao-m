@@ -101,6 +101,7 @@ export default {
       }
     }, */
     async onLoad () {
+      await this.$sleep(2000)
       const data = await getArticles({
         channel_id: this.channel_id,
         timestamp: this.timestamp || Date.now()
