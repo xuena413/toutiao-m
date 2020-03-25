@@ -12,3 +12,11 @@ export function getArticles (params) {
     params: { with_top: 1, ...params } // 延展运算符进行合并
   })
 }
+
+// ------------------------------------- 获取联想搜索建议
+export function getSuggestion (params) {
+  return request({
+    url: '/suggestion', // 搜索建议地址
+    params // query参数放置在params中
+  })
+}
