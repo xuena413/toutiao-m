@@ -35,7 +35,7 @@
             <div class="info_box">
               <span>{{item.aut_name}}</span>
               <span>{{item.comm_count}}</span>
-              <span>{{item.pubdate}}</span>
+              <span>{{ item.pubdate | relTime }}</span>
               <span class="close"><van-icon name="cross"></van-icon></span>
             </div>
 </div>
